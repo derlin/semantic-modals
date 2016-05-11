@@ -137,6 +137,10 @@
 
                 var content = options.html || "";
 
+                if(options.htmlInclude){
+                    content = "<div ng-include src=\"'" + options.htmlInclude + "'\"></div>";
+                }
+
                 var html;
                 if( options.basic ){
                     html = '<div class="ui basic modal"> <i class="close icon" ng-click="close(false)"></i> <div class="header">{{title}}</div> <div class="image content"> <div class="description"> <p ng-show="text">{{text}}</p> ' + content + ' </div> </div> <div class="actions"> <div class="ui inverted buttons"> <div class="ui red basic inverted button" ng-click="close(false)" ng-show="negative"> <i class="remove icon"></i> {{negative}} </div> <div class="ui green basic inverted button" ng-click="close(true)" ng-show="positive"> <i class="checkmark icon"></i> {{positive}} </div>' +
