@@ -58,7 +58,7 @@ AngularJS ModalService for the semantic-UI framework.
 - _positive, negative_ : the text of the negative/positive buttons. If not present, the button won't appear,
 - _basic_ : true/false, if true, the result will be a small basic modal, as presented in the semantic-ui examples,
 - _inputs_ : an object which will be passed to the modal controller. It means you can use whatever you register in the inputs in your modal content, using `inputs.myVar` or `inputs.myFunc()`. But don't forget the modal is in an isolated scope,
-- _cancelable_ : true/false, false by default. Whether or not clicking outside the modal closes it.
+- _cancelable_ : true/false, true by default. Whether or not clicking outside the modal closes it.
 
 ### Promise
 
