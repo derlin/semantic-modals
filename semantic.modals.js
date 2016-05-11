@@ -118,6 +118,11 @@
                         .modal( 'setting', 'closable', options.cancelable === false ? false : true )  //
                         .modal( 'show' );
 
+                    // fix the weird positioning
+                    var height = modalElement.height();
+                    modalElement.css('top', '40%');
+                    modalElement.css('margin-top', '-' + (height/2) + 'px');
+
                 }, function(){
                     // if the template failed
                     closeDeferred.reject();
