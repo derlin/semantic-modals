@@ -115,7 +115,7 @@
 
                         console.log(options);
                     $( modalElement )  //
-                        .modal( 'setting', 'closable', options.cancelable )  //
+                        .modal( 'setting', 'closable', options.cancelable ? true : false )  //
                         .modal( 'show' );
 
                 }, function(){
