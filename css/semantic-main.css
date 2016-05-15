@@ -1,0 +1,53 @@
+/* *****************************************************************
+ * layout
+ * ****************************************************************/
+
+/*== fix layout == */
+#container {
+    margin: 80px auto;
+    min-height: 60vh;
+}
+
+#container > .ui.grid {
+             margin: 30px auto;
+}
+
+.pusher {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.pusher > .footer {
+    flex: 1;
+}
+
+/*== header == */
+
+img.logo {
+    margin-right: 10px !important;
+}
+
+.column.config {
+    padding: 1em 0 !important;
+    padding-bottom: 100px !important;
+}
+.box {
+    background-color: #f8f8f9;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 1px rgba(34,36,38,.22) inset,0 0 0 0 transparent;
+    padding: 1em;
+    margin-bottom: 10px;
+}
+
+/* *****************************************************************
+ * general
+ * ****************************************************************/
+hr {
+    margin: 10px 0;
+}
+
+.tt {
+    font-family: monospace;
+}
+

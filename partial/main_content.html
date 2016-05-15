@@ -1,0 +1,172 @@
+
+<h1>semanticModal service demo</h1>
+
+Here are some examples, with the options and the result. All pre use the
+function call <code>ModalService.showModal(options);</code>.
+
+<div class="ui divider"></div>
+
+<div>A closable confirm modal.
+<pre>
+var options = {
+    title: "confirm",
+    text: "are you sure ?",
+    positive: "yep",
+    negative: "cancel",
+    cancelable : true
+};
+</pre>
+<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalInputsCancelable()">Try</button></div>
+</div>
+
+<div class="ui divider"></div>
+
+<div>A confirm modal with html content, basic style and semantic icon.
+<pre>
+var options = {
+    title   : "confirm",
+    html    : "<p>are you absolutely sure ?</p><p>All its SLS will be deleted as well.</p>",
+    positive: "proceed",
+    negative: "cancel",
+    icon    : "warning sign orange",
+    basic   : true,
+};
+</pre>
+<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalBasicIcon()">Try</button></div>
+</div>
+<div class="ui divider"></div>
+
+<div>A basic modal with angular bindings, non cancelable.
+<pre>
+var options = {
+    title: "confirm",
+    html: "are you sure you want to delete {{inputs.sensor.name}} ({{inputs.sensor.id}} ) ?",
+    positive: "yes",
+    basic: true,
+    inputs     : {
+        sensor: {id: 3, name: "sensor-XXXX"}
+    },
+    cancelable : false
+} );
+</pre>
+<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInput()">Try</button></div>
+</div>
+<div class="ui divider"></div>
+
+<div>A modal using a custom content. Internally, semanticModal uses the <code>ng-include</code>
+directive.
+<pre>
+var options = {
+    title: "html include",
+    htmlInclude: "partial/editModal_content.html",
+    positive: "do it!",
+    cancelable : false
+} );
+</pre>
+<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInclude()">Try</button></div>
+</div>
+<div class="ui divider"></div>
+
+<div> a completely custom content. You have access to <code>ctrl.inputs</code> and
+    can use <code>closeModal(true|false)</code> to close the modal and set the
+        return status.
+
+<pre>
+var options = {
+    title: "html include",
+    templateUrl: "semanticModalTemplate.html",
+    cancelable : false
+} );
+</pre>
+<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalTemplate()">Try</button></div>
+</div>
+<div class="ui divider"></div>
+
+<!-- template -->
+
+<script type="text/ng-template" id="semanticModalTemplate.html">
+    <div class="ui modal small">
+
+        <i class="close icon" ng-click="close(false)"></i>
+        <div class="header">
+            edit {{inputs.sensor.id}}
+        </div>
+        <div class="image content">
+            <div class="description">
+                <form name="editform" class="ui form" novalidate>
+                    <div class="ui labeled input">
+                        <!--name-->
+                        <div class="ui label">
+                            name
+                        </div>
+                        <input type="text" ng-model="inputs.sensors.name">
+                    </div>
+
+                    <!--description-->
+                    <div class="field">
+                        <label>Description</label>
+                        <textarea ng-model="inputs.sensor.description" rows="2"></textarea>
+                    </div>
+
+                    <!--location-->
+                    <div class="field">
+                        <label>Location</label>
+                        <textarea ng-model="inputs.sensor.location" rows="2"></textarea>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui black deny button" ng-click="close(false)">
+                Nope
+            </div>
+            <div class="ui positive right labeled icon button" ng-click="close(true)">
+                Go!
+                <i class="checkmark icon"></i>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div class="ui modal small">
+    <i class="close icon" ng-click="close(false)"></i>
+    <div class="header">
+        edit {{inputs.sensor.id}}
+    </div>
+    <div class="image content">
+        <div class="description">
+            <form name="editform" class="ui form" novalidate>
+                <div class="ui labeled input">
+                    <!--name-->
+                    <div class="ui label">
+                        name
+                    </div>
+                    <input type="text" ng-model="inputs.sensors.name">
+                </div>
+
+                <!--description-->
+                <div class="field">
+                    <label>Description</label>
+                    <textarea ng-model="inputs.sensor.description" rows="2"></textarea>
+                </div>
+
+                <!--location-->
+                <div class="field">
+                    <label>Location</label>
+                    <textarea ng-model="inputs.sensor.description" rows="2"></textarea>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="actions">
+        <div class="ui black deny button" ng-click="close(false)">
+            Nope
+        </div>
+        <div class="ui positive right labeled icon button" ng-click="close(true)">
+            Yep, that's me
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
