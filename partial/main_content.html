@@ -1,11 +1,72 @@
-
 <h1>semanticModal service demo</h1>
 
 Here are some examples, with the options and the result. All pre use the
 function call <code>ModalService.showModal(options);</code>.
 
-<div class="ui divider"></div>
 
+<!--free-->
+<div class="ui divider"></div>
+<div>Choose your options:
+    <form class="ui form">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" ng-model="freeOpts.title">
+        </div>
+        <div class="field">
+            <label>Icon</label>
+            <input type="text" ng-model="freeOpts.icon" ng-change="ctrl.clearInput('icon')">
+        </div>
+        <div class="field">
+            <label>type</label>
+            <select ng-model="ctype">
+                <option value="text">text</option>
+                <option value="html">html</option>
+            </select>
+        </div>
+        <div class="field" ng-show="ctype == 'text'">
+            <label>text</label>
+            <input type="text" ng-model="freeOpts.text" ng-change="ctrl.clearInput('text')">
+        </div>
+        <div class="field" ng-show="ctype == 'html'">
+            <label>html</label>
+            <input type="text" ng-model="freeOpts.html" ng-change="ctrl.clearInput('html')">
+        </div>
+        <div class="field">
+            <label>Positive</label>
+            <input type="text" ng-model="freeOpts.positive" ng-change="ctrl.clearInput('positive')">
+        </div>
+        <div class="field">
+            <label>Positive</label>
+            <input type="text" ng-model="freeOpts.negative" ng-change="ctrl.clearInput('negative')">
+        </div>
+
+        <div class="field">
+            <div class="ui checkbox">
+                <input type="checkbox" tabindex="0" ng-model="freeOpts.basic">
+                <label>basic style</label>
+            </div>
+        </div>
+        <div class="field">
+            <div class="ui checkbox">
+                <input type="checkbox" tabindex="0" ng-model="freeOpts.cancelable">
+                <label>cancelable</label>
+            </div>
+        </div>
+    </form>
+    <p>
+    <pre class="output">{{freeOpts | json}}</pre>
+    </p>
+
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="ctrl.freeModal()">Try</button>
+    </div>
+    <pre class="output">{{freeModalOutput | json}}</pre>
+
+</div>
+
+
+<!--closeable-->
+<div class="ui divider"></div>
 <div>A closable confirm modal.
 <pre>
 var options = {
@@ -16,31 +77,39 @@ var options = {
     cancelable : true
 };
 </pre>
-<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalInputsCancelable()">Try</button></div>
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="ctrl.modalInputsCancelable()">Try</button>
+    </div>
+    <pre class="output" ng-show="inputsCancelableOutput">{{inputsCancelableOutput | json }}</pre>
 </div>
 
-<div class="ui divider"></div>
 
+<!--icon-->
+<div class="ui divider"></div>
 <div>A confirm modal with html content, basic style and semantic icon.
-<pre>
+<pre ng-non-bindable>
 var options = {
-    title   : "confirm",
-    html    : "<p>are you absolutely sure ?</p><p>All its SLS will be deleted as well.</p>",
+    title   : "Confirm deletion",
+    html    : "&lt;p&gt;are you absolutely sure ?&lt;/p&gt;&lt;p&gt;You cannot undo this action.&lt;/p&gt;",
     positive: "proceed",
     negative: "cancel",
     icon    : "warning sign orange",
     basic   : true,
 };
 </pre>
-<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalBasicIcon()">Try</button></div>
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="ctrl.modalBasicIcon()">Try</button>
+    </div>
+    <pre class="output">{{basicIconOutput | json}}</pre>
 </div>
-<div class="ui divider"></div>
 
+<!--bindings-->
+<div class="ui divider"></div>
 <div>A basic modal with angular bindings, non cancelable.
-<pre>
+<pre ng-non-bindable>
 var options = {
     title: "confirm",
-    html: "are you sure you want to delete {{inputs.sensor.name}} ({{inputs.sensor.id}} ) ?",
+    html: "are you sure you want to delete {{inputs.sensor.name}} (id={{inputs.sensor.id}}) ?",
     positive: "yes",
     basic: true,
     inputs     : {
@@ -49,36 +118,50 @@ var options = {
     cancelable : false
 } );
 </pre>
-<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInput()">Try</button></div>
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInput()">Try</button>
+    </div>
+    <pre ng-show="htmlInputOutput" class="output">{{htmlInputOutput | json}}</pre>
 </div>
+
+<!--html include-->
 <div class="ui divider"></div>
 
 <div>A modal using a custom content. Internally, semanticModal uses the <code>ng-include</code>
-directive.
-<pre>
+    directive.
+<pre ng-non-bindable>
 var options = {
     title: "html include",
     htmlInclude: "partial/editModal_content.html",
+                    inputs: {name: "some name", description: "a description", hidden: "hidden"},
     positive: "do it!",
     cancelable : false
 } );
 </pre>
-<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInclude()">Try</button></div>
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInclude()">Try</button>
+    </div>
+    <pre ng-show="htmlIncludeOutput" class="output">{{htmlIncludeOutput | json}}</pre>
 </div>
+
+<!--modale template-->
 <div class="ui divider"></div>
 
 <div> a completely custom content. You have access to <code>ctrl.inputs</code> and
     can use <code>closeModal(true|false)</code> to close the modal and set the
-        return status.
+    return status.
 
-<pre>
+<pre ng-non-bindable>
 var options = {
-    title: "html include",
+    title: "using a custom template",
     templateUrl: "semanticModalTemplate.html",
     cancelable : false
 } );
 </pre>
-<div class="align-right"><button class="ui right  button inverted pink" ng-click="ctrl.modalTemplate()">Try</button></div>
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="ctrl.modalTemplate()">Try</button>
+    </div>
+    <pre class="output" ng-show="modalTemplateOutput">{{modalTemplateOutput | json}}</pre>
 </div>
 <div class="ui divider"></div>
 
@@ -89,7 +172,7 @@ var options = {
 
         <i class="close icon" ng-click="close(false)"></i>
         <div class="header">
-            {{inputs.title}}
+            Custom template
         </div>
         <div class="image content">
             <div class="description">
@@ -128,45 +211,3 @@ var options = {
         </div>
     </div>
 </script>
-
-<div class="ui modal small">
-    <i class="close icon" ng-click="close(false)"></i>
-    <div class="header">
-        {{inputs.title}}
-    </div>
-    <div class="image content">
-        <div class="description">
-            <form name="editform" class="ui form" novalidate>
-                <div class="ui labeled input">
-                    <!--name-->
-                    <div class="ui label">
-                        name
-                    </div>
-                    <input type="text" ng-model="inputs.sensors.name">
-                </div>
-
-                <!--description-->
-                <div class="field">
-                    <label>Description</label>
-                    <textarea ng-model="inputs.sensor.description" rows="2"></textarea>
-                </div>
-
-                <!--location-->
-                <div class="field">
-                    <label>Location</label>
-                    <textarea ng-model="inputs.sensor.description" rows="2"></textarea>
-                </div>
-
-            </form>
-        </div>
-    </div>
-    <div class="actions">
-        <div class="ui black deny button" ng-click="close(false)">
-            Nope
-        </div>
-        <div class="ui positive right labeled icon button" ng-click="close(true)">
-            Yep, that's me
-            <i class="checkmark icon"></i>
-        </div>
-    </div>
-</div>
