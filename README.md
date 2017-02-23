@@ -1,6 +1,6 @@
 # semantic-modals
 
-AngularJS ModalService for the semantic-UI framework.
+AngularJS ModalService for the semantic-UI framework. Have a look at [the demo](http://derlin.github.io/semantic-modals/).
 
 # Quick start
 
