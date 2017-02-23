@@ -23,15 +23,24 @@
     function ctrl($scope, ModalService) {
 
         var self = this;
-        $scope.freeOpts = {
+        self.content = {
+            isHtml: false,
+            text: "Are you sure ?",
+            html: "Are you ok {{inputs.name}} ?"
+        };
+
+        self.freeOpts = {
             title: "modal",
             positive: "ok",
             negative: "cancel",
             basic: true,
             icon: "warning sign orange",
-            text: "modal content",
+            text: self.content.text,
+            inputs: {
+                name: "Hank",
+                id: 3
+            }
         };
-        $scope.ctype = 'text';
 
         //##------------available methods
 
@@ -42,16 +51,38 @@
         self.modalTemplate = modalTemplate;
         self.freeModal = freeModal;
 
-        self.clearInput = function(name){
-            if(!$scope.freeOpts[name]) delete $scope.freeOpts[name];
-        }
+
+        $scope.$watch('ctrl.content.isHtml', function (nw, old) {
+
+            if (nw != old) {
+                var key = nw ? ['html', 'text'] : ['text', 'html'];
+                self.freeOpts[key[0]] = self.content[key[0]];
+                delete self.freeOpts[key[1]];
+            }
+
+            for (var key in self.freeOpts) {
+                if (self.freeOpts[key] == "") delete self.freeOpts[key];
+            }
+        });
+
+        $scope.$watch('ctrl.freeOpts', function (nw, old) {
+            for (var key in self.freeOpts) {
+                if (self.freeOpts[key] == "") delete self.freeOpts[key];
+            }
+        }, true);
 
 
-        function freeModal(){
-            ModalService.showModal($scope.freeOpts, function(results){
-                freeModalOutput = results;
-            });
+        // -------------------------------
+
+        function freeModal() {
+            ModalService.showModal(self.freeOpts)
+                .then(function (results) {
+                    $scope.freeModalOutput = results;
+                }, function (error) {
+                    $scope.freeModalOutput = error;
+                });
         }
+
 
         function modalInputsCancelable() {
             ModalService.showModal({
@@ -131,7 +162,6 @@
                 $scope.modalTemplateOutput = error;
             });
         }
-
 
 
         //##------------utils

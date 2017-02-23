@@ -4,69 +4,91 @@ Here are some examples, with the options and the result. All pre use the
 function call <code>ModalService.showModal(options);</code>.
 
 
+<h4 class="ui horizontal divider header">
+    <i class="arrow circle outline down
+ icon"></i>
+    Interactive demo
+</h4>
+
 <!--free-->
-<div class="ui divider"></div>
-<div>Choose your options:
-    <form class="ui form">
-        <div class="field">
-            <label>Title</label>
-            <input type="text" ng-model="freeOpts.title">
-        </div>
-        <div class="field">
-            <label>Icon</label>
-            <input type="text" ng-model="freeOpts.icon" ng-change="ctrl.clearInput('icon')">
-        </div>
-        <div class="field">
-            <label>type</label>
-            <select ng-model="ctype">
-                <option value="text">text</option>
-                <option value="html">html</option>
-            </select>
-        </div>
-        <div class="field" ng-show="ctype == 'text'">
-            <label>text</label>
-            <input type="text" ng-model="freeOpts.text" ng-change="ctrl.clearInput('text')">
-        </div>
-        <div class="field" ng-show="ctype == 'html'">
-            <label>html</label>
-            <input type="text" ng-model="freeOpts.html" ng-change="ctrl.clearInput('html')">
-        </div>
-        <div class="field">
-            <label>Positive</label>
-            <input type="text" ng-model="freeOpts.positive" ng-change="ctrl.clearInput('positive')">
-        </div>
-        <div class="field">
-            <label>Positive</label>
-            <input type="text" ng-model="freeOpts.negative" ng-change="ctrl.clearInput('negative')">
-        </div>
-
-        <div class="field">
-            <div class="ui checkbox">
-                <input type="checkbox" tabindex="0" ng-model="freeOpts.basic">
-                <label>basic style</label>
+<div class="ui raised segments">
+    <div class="ui segment">
+        <div class="ui top attached label">choose your options</div>
+        <form class="ui form">
+            <div class="two fields">
+                <div class="field">
+                    <label>Title</label>
+                    <input type="text" ng-model="ctrl.freeOpts.title">
+                </div>
+                <div class="field">
+                    <label>Icon</label>
+                    <input type="text" ng-model="ctrl.freeOpts.icon">
+                </div>
             </div>
-        </div>
-        <div class="field">
-            <div class="ui checkbox">
-                <input type="checkbox" tabindex="0" ng-model="freeOpts.cancelable">
-                <label>cancelable</label>
+            <div class="two fields">
+                <div class="field" ng-show="!ctrl.content.isHtml">
+                    <label>Text</label>
+                    <textarea rows="2" ng-model="ctrl.content.text"></textarea>
+                </div>
+                <div class="field" ng-show="ctrl.content.isHtml">
+                    <label>Html</label>
+                    <textarea rows="2" ng-model="ctrl.content.html"></textarea>
+                </div>
+                <div class="field">
+                    <label>&nbsp;</label>
+                    <div class="ui toggle checkbox">
+                        <input type="checkbox" tabindex="0" ng-model="ctrl.content.isHtml">
+                        <label>html</label>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
-    <p>
-    <pre class="output">{{freeOpts | json}}</pre>
-    </p>
 
-    <div class="align-right">
-        <button class="ui right  button inverted pink" ng-click="ctrl.freeModal()">Try</button>
+            <div class="fields">
+                <div class="field">
+                    <label>Positive</label>
+                    <input type="text" ng-model="ctrl.freeOpts.positive">
+                </div>
+                <div class="field">
+                    <label>Negative</label>
+                    <input type="text" ng-model="ctrl.freeOpts.negative">
+                </div>
+
+                <div class="field">
+                    <label>&nbsp;</label>
+                    <div class="ui checkbox">
+                        <input type="checkbox" tabindex="0" ng-model="ctrl.freeOpts.basic">
+                        <label>basic style</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>&nbsp;</label>
+                    <div class="ui checkbox">
+                        <input type="checkbox" tabindex="0" ng-model="ctrl.freeOpts.cancelable">
+                        <label>cancelable</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <p>
+        <pre class="output">{{ctrl.freeOpts | json}}</pre>
+        </p>
+
+        <div class="align-right">
+            <button class="ui right  button inverted pink" ng-click="ctrl.freeModal()">Try</button>
+        </div>
+        <pre class="output" ng-show="freeModalOutput">{{freeModalOutput | json}}</pre>
+
     </div>
-    <pre class="output">{{freeModalOutput | json}}</pre>
-
 </div>
 
 
+<h4 class="ui horizontal divider header">
+    <i class="arrow circle outline down icon"></i>
+    other examples
+</h4>
+
 <!--closeable-->
-<div class="ui divider"></div>
 <div>A closable confirm modal.
 <pre>
 var options = {
@@ -100,7 +122,7 @@ var options = {
     <div class="align-right">
         <button class="ui right  button inverted pink" ng-click="ctrl.modalBasicIcon()">Try</button>
     </div>
-    <pre class="output">{{basicIconOutput | json}}</pre>
+    <pre class="output" ng-show="basicIconOutput">{{basicIconOutput | json}}</pre>
 </div>
 
 <!--bindings-->

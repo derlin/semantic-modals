@@ -20,11 +20,12 @@
 <body ng-app="app" ng-controller="MainCtrl as ctrl">
 
 <!--menu-->
-<div class="ui fixed inverted menu">
+<div class="ui fixed menu">
     <div class="ui container">
         <a href="#/" class="header item">
-            <img class="logo" src="assets/logo.png">semantic modals demo
+            <img class="logo" src="assets/logo.png">semantic-modals Demo
         </a>
+        <a class="header item push right" href="https://github.com/derlin/semantic-modals">Github Repo</a>
     </div>
 </div>
 
@@ -34,9 +35,10 @@
     <div id="container" class="ui main container" ng-include src="'./partial/main_content.html'">
     </div>
     <!--footer-->
-    <div class="ui inverted vertical footer segment">
+    <div class="ui vertical footer segment">
         <div class="ui center aligned container">
-            <div class="ui horizontal inverted small link list">
+            <div class="ui horizontal small link list">
+                <div class="item">@Copyright Derlin 2016</div>
                 <a class="item" href="https://github.com/derlin/semantic-modals">Github repo</a>
             </div>
         </div>
