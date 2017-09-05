@@ -37,7 +37,7 @@
                     if(!newValue) return;
                      var $div = $('<div><pre><code data-language="javascript">' +
                         stringify(newValue, null, '   ') + '</code></pre></div>');
-                     Rainbow.color($div, function(result) {
+                     Rainbow.color($div[0], function(result) {
                          element.html($div.html());
                      });
                  });

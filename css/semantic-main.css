@@ -62,3 +62,8 @@ html pre, html code {
 pre .string, pre .support.value {
     color: deeppink;
 }
+
+[data-language] code, [class^="lang"] code, pre [data-language], pre [class^="lang"] {
+    opacity: 1;
+    animation: none;
+}
