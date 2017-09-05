@@ -20,9 +20,10 @@
 
     // --------------------------
 
-    function ctrl($scope, ModalService) {
+    function ctrl($scope, $timeout, ModalService) {
 
         var self = this;
+
         self.content = {
             isHtml: false,
             text: "Are you sure ?",
@@ -42,6 +43,7 @@
             }
         };
 
+        $timeout(Rainbow.color, 500);
         //##------------available methods
 
         self.modalInputsCancelable = modalInputsCancelable;
@@ -82,6 +84,7 @@
             for (var key in self.freeOpts) {
                 if (self.freeOpts[key] == "") delete self.freeOpts[key];
             }
+            $timeout(Rainbow.color, 100);
         }, true);
 
 
@@ -170,7 +173,7 @@
 
             }).then(function (result) {
                 $scope.modalTemplateOutput1 = result;
-                console.log("modalTemplate closed. Result=" + result);
+                console.log("modalTemplate closed. Result=", result);
             }, function (error) {
                 $scope.modalTemplateOutput1 = error;
             });
@@ -183,7 +186,7 @@
 
             }).then(function (result) {
                 $scope.modalTemplateOutput2 = result;
-                console.log("modalTemplate closed. Result=" + result);
+                console.log("modalTemplate closed. Result=", result);
             }, function (error) {
                 $scope.modalTemplateOutput2 = error;
             });
@@ -197,7 +200,7 @@
 
             }).then(function (result) {
                 $scope.modalTemplateOutput3 = result;
-                console.log("modalTemplate closed. Result=" + result);
+                console.log("modalTemplate closed. Result=", result);
             }, function (error) {
                 $scope.modalTemplateOutput3 = error;
             });

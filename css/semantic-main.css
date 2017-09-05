@@ -53,7 +53,7 @@ hr {
 
 .output {
     min-height: 40px;
-    background: #eee;
+    /*background: #eee;*/
     margin: 5px;
     padding: 10px;
 }
