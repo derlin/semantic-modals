@@ -43,6 +43,11 @@ AngularJS ModalService for the semantic-UI framework. Have a look at [the demo](
  
  ![result](screenshots/basic-confirm-modal.png)
  
+# With bower
+
+```
+bower install semantic-modals
+```
 
 # Usage
 
