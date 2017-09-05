@@ -1,8 +1,21 @@
 <h1>semanticModal service demo</h1>
 
+<script type="text/ng-template" id="example-content.html">
+    <p><emph>Options:</emph></p>
+    <div highlight watch="options"></div>
+    <div class="align-right">
+        <button class="ui right  button inverted pink" ng-click="try()">Try</button>
+    </div>
+    <!--<p class="output" ng-show="result" highlight watch="result"></p>-->
+    <div style="margin-top: 10px" ng-show="result">
+        <emph>Output:</emph>
+        <pre class="output">{{ result | stringify }}</pre>
+    </div>
+</script>
+
+
 Here are some examples, with the options and the result. All pre use the
 function call <code>ModalService.showModal(options);</code>.
-
 
 <h4 class="ui horizontal divider header">
     <i class="arrow circle outline down
@@ -77,7 +90,7 @@ function call <code>ModalService.showModal(options);</code>.
         <div class="align-right">
             <button class="ui right  button inverted pink" ng-click="ctrl.freeModal()">Try</button>
         </div>
-        <pre class="output" ng-show="freeModalOutput">{{freeModalOutput | json}}</pre>
+        <div class="output" ng-show="freeModalOutput">{{freeModalOutput | stringify}}</div>
 
     </div>
 </div>
@@ -90,44 +103,35 @@ function call <code>ModalService.showModal(options);</code>.
 
 
 <!--closeable-->
-<div>A <strong>closable</strong> confirm modal.
+<p>A <strong>closable</strong> confirm modal.</p>
 
-<pre><code data-language="javascript">var options = {
-    title: "confirm",
-    text: "are you sure ?",
-    positive: "yep",
-    negative: "cancel",
-    cancelable : true
-};</code></pre>
-    <div class="align-right">
-        <button class="ui right  button inverted pink" ng-click="ctrl.modalInputsCancelable()">Try</button>
-    </div>
-    <pre class="output" ng-show="inputsCancelableOutput">{{inputsCancelableOutput | json }}</pre>
-</div>
-
+<div modal-example options="{
+    title: 'confirm',
+    text: 'are you sure ?',
+    positive: 'yep',
+    negative: 'cancel',
+    cancelable: true
+}"></div>
 
 <!--icon-->
 <div class="ui divider"></div>
-<div>A confirm modal with <strong>html content</strong>, basic style and semantic icon.
-    <pre><code data-language="javascript">var options = {
-    title   : "Confirm deletion",
-    html    : "&lt;p&gt;are you absolutely sure ?&lt;/p&gt;&lt;p&gt;You cannot undo this action.&lt;/p&gt;",
-    positive: "proceed",
-    negative: "cancel",
-    icon    : "warning sign orange",
+<p>A confirm modal with <strong>html content</strong>, basic style and semantic icon.</p>
+
+<div modal-example options="{
+    title: 'Confirm deletion',
+    html: '&lt;p&gt;are you absolutely sure ?&lt;/p&gt;&lt;p&gt;You cannot undo this action.&lt;/p&gt;',
+    positive: 'proceed',
+    negative: 'cancel',
+    icon    : 'warning sign orange',
     basic   : true,
-};</code></pre>
-    <div class="align-right">
-        <button class="ui right  button inverted pink" ng-click="ctrl.modalBasicIcon()">Try</button>
-    </div>
-    <pre class="output" ng-show="basicIconOutput">{{basicIconOutput | json}}</pre>
-</div>
+}"></div>
 
 <!--bindings-->
 <div class="ui divider"></div>
-<div>A basic modal with <strong>angular bindings</strong>, non cancelable.
-    <pre><code data-language="javascript">var options = {
-    title: "confirm",
+<p>A basic modal with <strong>angular bindings</strong>, non cancelable.</p>
+
+<div modal-example options='{
+    title: "Confirm",
     html: "are you sure you want to delete {{inputs.sensor.name}} (id={{inputs.sensor.id}}) ?",
     positive: "yes",
     basic: true,
@@ -135,31 +139,22 @@ function call <code>ModalService.showModal(options);</code>.
         sensor: {id: 3, name: "sensor-XXXX"}
     },
     cancelable : false
-} );</code></pre>
-    <div class="align-right">
-        <button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInput()">Try</button>
-    </div>
-    <pre ng-show="htmlInputOutput" class="output">{{htmlInputOutput | json}}</pre>
-</div>
+}'></div>
 
 <!--html include-->
 <div class="ui divider"></div>
 
-<div>A modal using a <strong>custom html content</strong>. Internally, semanticModal uses the <code>ng-include</code>
+<p>A modal using a <strong>custom html content</strong>. Internally, semanticModal uses the
+    <code>ng-include</code>
     directive. The <code>partial/editModal_content.html</code> file contains a basic html form.
-    <pre><code data-language="javascript">var options = {
+<div modal-example options='{
     title: "html include",
     htmlInclude: "partial/editModal_content.html",
     inputs: {name: "some name", description: "a description", hidden: "hidden"},
     positive: "do it!",
     cancelable : false
-};</code>
-</pre>
-    <div class="align-right">
-        <button class="ui right  button inverted pink" ng-click="ctrl.modalHtmlInclude()">Try</button>
-    </div>
-    <pre ng-show="htmlIncludeOutput" class="output">{{htmlIncludeOutput | json}}</pre>
-</div>
+}'></div>
+
 
 <!--modale template-->
 <div class="ui divider"></div>
@@ -167,12 +162,14 @@ function call <code>ModalService.showModal(options);</code>.
 <h3>Home-made modals</h3>
 
 Semantic-modals lets you create your own modal from scratch using the <code>templateId</code> and
-<code>templateUrl</code> options.  <br>
+<code>templateUrl</code> options. <br>
 You can access and manipulate what is defined in the <code>inputs</code> option through the
 <code>ctrl.inputs</code> variable.
 
-One important rule, though: if you use a template, it is <emph>your responsibility</emph> to call the <code>close</code>
-    method available in the modal scope. It means that in your template's buttons,
+One important rule, though: if you use a template, it is
+<emph>your responsibility</emph>
+to call the <code>close</code>
+method available in the modal scope. It means that in your template's buttons,
 you need to have an attribute like <code>ng-click="close(true)"</code>. Without a call to <code>close</code>,
 the success callback will indeed never be called.
 
@@ -193,97 +190,57 @@ To make a template available, you have three options:
         </pre>In this case, you only need to use the <code>templateId: "mytemplate.html"</code> property.
     </li>
     <li>define a template in a specific file that is not included in the page, using its filepath as a
-    template id. In this case, only the <code>templateId: "mytemplate.html"</code> is needed. The
-    library will automatically make the html request for you and load the template from the server.</li>
+        template id. In this case, only the <code>templateId: "mytemplate.html"</code> is needed. The
+        library will automatically make the html request for you and load the template from the server.
+    </li>
     <li>in case you have many templates, you can choose to put all your template definitions into one
-    file. In this case, the filepath and the template ids will be different (logical, right?). In this
-    context, you need to define both the <code>templateId</code> and <code>templateUrl</code>
-    attributes.</li>
+        file. In this case, the filepath and the template ids will be different (logical, right?). In this
+        context, you need to define both the <code>templateId</code> and <code>templateUrl</code>
+        attributes.
+    </li>
 </ol>
 
 <div class="ui divider"></div>
 
-<div> A custom template defined on this page (have a look at the source code if you don't believe me):
+<p> A custom template defined on this page (have a look at the source code if you don't believe me):</p>
 
-<pre><code data-language="javascript">var options = {
+<div modal-example options='{
     templateId: "inlineModalTemplate.html",
     cancelable : false
- };</code></pre>
-    <div class="align-right">
-        <button class="ui right  button inverted pink" ng-click="ctrl.modalTemplate1()">Try</button>
-    </div>
-    <pre class="output" ng-show="modalTemplateOutput1">{{modalTemplateOutput1 | json}}</pre>
-</div>
-<div class="ui divider"></div>
+}'></div>
+
 
 <!-- template -->
-
-<script type="text/ng-template" id="inlineModalTemplate.html">
-    <div class="ui modal small">
-
-        <i class="close icon" ng-click="close(false)"></i>
-        <div class="header">
-            Custom template
+<script type='text/ng-template' id='inlineModalTemplate.html'>
+    <div class='ui basic modal'>
+        <div class='ui icon header'>
+            <i class='trash icon'></i>
+            Confirm deletion
         </div>
-        <div class="image content">
-            <div class="description">
-                <form name="editform" class="ui form" novalidate>
-                    <div class="ui labeled input">
-                        <!--name-->
-                        <div class="ui label">
-                            name
-                        </div>
-                        <input type="text" ng-model="inputs.sensors.name">
-                    </div>
-
-                    <!--description-->
-                    <div class="field">
-                        <label>Description</label>
-                        <textarea ng-model="inputs.sensor.description" rows="2"></textarea>
-                    </div>
-
-                    <!--location-->
-                    <div class="field">
-                        <label>Location</label>
-                        <textarea ng-model="inputs.sensor.location" rows="2"></textarea>
-                    </div>
-
-                </form>
-            </div>
+        <div class='content'>
+            <p>Are you sure you wish to delete this project ? This cannot be undone</p>
         </div>
-        <div class="actions">
-            <div class="ui black deny button" ng-click="close(false)">
-                Nope
-            </div>
-            <div class="ui positive right labeled icon button" ng-click="close(true)">
-                Go!
-                <i class="checkmark icon"></i>
-            </div>
+        <div class='actions'>
+            <div class='ui red basic cancel inverted button' ng-click='close(false)'><i class="remove icon"></i> Cancel</div>
+            <div class='ui green approve inverted button' ng-click='close(true)'><i class="checkmark icon"></i> OK</div>
         </div>
     </div>
 </script>
 
-<div>A modal template loaded from a file. The filepath is equal to the template id.</div>
-<pre><code data-language="javascript">var options = {
-    templateId: "partial/confirmModal.html",
-    cancelable : false
-}; </code></pre>
-<div class="align-right">
-    <button class="ui right  button inverted pink" ng-click="ctrl.modalTemplate2()">Try</button>
-</div>
-<pre class="output" ng-show="modalTemplateOutput2">{{modalTemplateOutput2 | json}}</pre>
-</div>
 <div class="ui divider"></div>
 
-<div>A modal template loaded from a file with a different filepath than the template id.</div>
-<pre><code data-language="javascript">var options = {
+<p>A modal template loaded from a file. The filepath is equal to the template id.</p>
+
+<div modal-example options='{
+    templateId: "partial/confirmModal.html",
+    cancelable : false
+}'></div>
+
+<div class="ui divider"></div>
+
+<p>A modal template loaded from a file with a different filepath than the template id.</p>
+<div modal-example options='{
     templateId: "example",
     templateUrl: "partial/templates.html",
     cancelable : true
-}</code></pre>
-<div class="align-right">
-    <button class="ui right  button inverted pink" ng-click="ctrl.modalTemplate3()">Try</button>
-</div>
-<pre class="output" ng-show="modalTemplateOutput3">{{modalTemplateOutput3 | json}}</pre>
-</div>
-<div class="ui divider"></div>
+}'></div>

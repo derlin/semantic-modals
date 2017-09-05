@@ -17,9 +17,15 @@
      */
     angular.module('app', ['semantic.modals'])
         .directive("highlight", highlightDynamic)
+        .directive('modalExample', createExample)
+        .filter('stringify', function(){ return stringify; })
         .controller('MainCtrl', ctrl);
 
     // --------------------------
+
+    function stringify(obj){
+        return obj ? JSON.stringify(obj, null, '   ').replace(/"([^"]*)":/g, '$1:') : "";
+    }
 
     function highlightDynamic(){
         return {
@@ -30,11 +36,31 @@
                  scope.$watchCollection('watch', function(newValue){
                     if(!newValue) return;
                      var $div = $('<div><pre><code data-language="javascript">' +
-                        JSON.stringify(newValue, null, '   ') + '</code></pre></div>');
+                        stringify(newValue, null, '   ') + '</code></pre></div>');
                      Rainbow.color($div, function(result) {
                          element.html($div.html());
                      });
                  });
+             }
+         }
+    }
+
+    function createExample($compile, $templateRequest, ModalService){
+        return {
+             templateUrl: 'example-content.html',
+             scope: {
+               options: "<"
+             },
+             link: function(scope, element) {
+                scope.try = function(){
+                    ModalService.showModal(scope.options
+                    ).then(function (result) {
+                         scope.result = result;
+                    }, function (error) {
+                         scope.result = error;
+                    });
+                };
+
              }
          }
     }
@@ -65,16 +91,11 @@
             }
         };
 
+        // highlight
         $timeout(Rainbow.color, 500);
+
         //##------------available methods
 
-        self.modalInputsCancelable = modalInputsCancelable;
-        self.modalBasicIcon = modalBasicIcon;
-        self.modalHtmlInput = modalHtmlInput;
-        self.modalHtmlInclude = modalHtmlInclude;
-        self.modalTemplate1 = modalTemplate1;
-        self.modalTemplate2 = modalTemplate2;
-        self.modalTemplate3 = modalTemplate3;
         self.freeModal = freeModal;
 
         self.testIssue =
@@ -120,114 +141,6 @@
                     $scope.freeModalOutput = error;
                 });
         }
-
-
-        function modalInputsCancelable() {
-            ModalService.showModal({
-                title: "confirm",
-                text: "are you sure ?",
-                positive: "yep",
-                negative: "cancel",
-                cancelable: true
-
-            }).then(function (result) {
-                $scope.inputsCancelableOutput = result;
-            }, function (error) {
-                $scope.inputsCancelableOutput = error;
-            });
-        }
-
-        function modalBasicIcon() {
-            ModalService.showModal({
-                title: "Confirm deletion",
-                html: "<p>are you absolutely sure ?</p><p>You cannot undo this action.</p>",
-                positive: "proceed",
-                negative: "cancel",
-                icon: "warning sign orange",
-                basic: true,
-            }).then(function (result) {
-                $scope.basicIconOutput = result;
-                console.log("modalBasicIcon closed. Result=" + result);
-            }, function (error) {
-                $scope.basicIconOutput = error;
-            });
-        }
-
-        function modalHtmlInput() {
-            ModalService.showModal({
-                title: "confirm",
-                html: "are you sure you want to delete {{inputs.sensor.name}} ({{inputs.sensor.id}} ) ?",
-                positive: "yes",
-                basic: true,
-                inputs: {
-                    sensor: {id: 3, name: "sensor-XXXX"}
-                },
-                cancelable: false
-
-            }).then(function (result) {
-                $scope.htmlInputOutput = result;
-                console.log("htmlInput closed. Result=" + result);
-            }, function (error) {
-                $scope.htmlInputOutput = error;
-            });
-        }
-
-        function modalHtmlInclude() {
-            ModalService.showModal({
-                title: "html include",
-                htmlInclude: "partial/editModal_content.html",
-                inputs: {name: "some name", description: "a description", hidden: "hidden"},
-                positive: "do it!",
-                cancelable: false
-
-            }).then(function (result) {
-                $scope.htmlIncludeOutput = result;
-                console.log("htmlInclude closed. Result=" + result);
-            }, function (error) {
-                $scope.htmlIncludetOutput = error;
-            });
-        }
-
-        function modalTemplate1() {
-            ModalService.showModal({
-                templateId: "inlineModalTemplate.html",
-                cancelable: false
-
-            }).then(function (result) {
-                $scope.modalTemplateOutput1 = result;
-                console.log("modalTemplate closed. Result=", result);
-            }, function (error) {
-                $scope.modalTemplateOutput1 = error;
-            });
-        }
-
-        function modalTemplate2() {
-            ModalService.showModal({
-                templateId: "partial/confirmModal.html",
-                cancelable : false
-
-            }).then(function (result) {
-                $scope.modalTemplateOutput2 = result;
-                console.log("modalTemplate closed. Result=", result);
-            }, function (error) {
-                $scope.modalTemplateOutput2 = error;
-            });
-        }
-
-        function modalTemplate3() {
-            ModalService.showModal({
-                templateId: "example",
-                templateUrl: "partial/templates.html",
-                cancelable : true
-
-            }).then(function (result) {
-                $scope.modalTemplateOutput3 = result;
-                console.log("modalTemplate closed. Result=", result);
-            }, function (error) {
-                $scope.modalTemplateOutput3 = error;
-            });
-        }
-
 
         //##------------utils
 
