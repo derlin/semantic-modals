@@ -1,0 +1,15 @@
+<script type='text/ng-template' id='partial/confirmModal.html'>
+    <div class='ui basic modal'>
+        <div class='ui icon header'>
+            <i class='trash icon'></i>
+            Confirm deletion
+        </div>
+        <div class='content'>
+            <p>Are you sure you wish to delete this project ? This cannot be undone</p>
+        </div>
+        <div class='actions'>
+            <div class='ui red basic cancel inverted button' ng-click='close(false)'><i class="remove icon"></i> Cancel</div>
+            <div class='ui green approve inverted button' ng-click='close(true)'><i class="checkmark icon"></i> OK</div>
+        </div>
+    </div>
+</script>

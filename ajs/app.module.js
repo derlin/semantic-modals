@@ -48,9 +48,22 @@
         self.modalBasicIcon = modalBasicIcon;
         self.modalHtmlInput = modalHtmlInput;
         self.modalHtmlInclude = modalHtmlInclude;
-        self.modalTemplate = modalTemplate;
+        self.modalTemplate1 = modalTemplate1;
+        self.modalTemplate2 = modalTemplate2;
+        self.modalTemplate3 = modalTemplate3;
         self.freeModal = freeModal;
 
+        self.testIssue =
+        function(){
+            ModalService.showModal({
+                templateId: 'hello',
+                templateUrl: 'partial/confirmModal.html'
+            }).then(function (result) {
+              console.log("modalBasicIcon closed. Result=" + result);
+          }, function (error) {
+              console.log(error);
+          });
+        };
 
         $scope.$watch('ctrl.content.isHtml', function (nw, old) {
 
@@ -150,16 +163,43 @@
             });
         }
 
-        function modalTemplate() {
+        function modalTemplate1() {
             ModalService.showModal({
-                templateUrl: "semanticModalTemplate.html",
+                templateId: "inlineModalTemplate.html",
                 cancelable: false
 
             }).then(function (result) {
-                $scope.modalTemplateOutput = result;
+                $scope.modalTemplateOutput1 = result;
                 console.log("modalTemplate closed. Result=" + result);
             }, function (error) {
-                $scope.modalTemplateOutput = error;
+                $scope.modalTemplateOutput1 = error;
+            });
+        }
+
+        function modalTemplate2() {
+            ModalService.showModal({
+                templateId: "partial/confirmModal.html",
+                cancelable : false
+
+            }).then(function (result) {
+                $scope.modalTemplateOutput2 = result;
+                console.log("modalTemplate closed. Result=" + result);
+            }, function (error) {
+                $scope.modalTemplateOutput2 = error;
+            });
+        }
+
+        function modalTemplate3() {
+            ModalService.showModal({
+                templateId: "example",
+                templateUrl: "partial/templates.html",
+                cancelable : true
+
+            }).then(function (result) {
+                $scope.modalTemplateOutput3 = result;
+                console.log("modalTemplate closed. Result=" + result);
+            }, function (error) {
+                $scope.modalTemplateOutput3 = error;
             });
         }
 
