@@ -54,7 +54,10 @@ AngularJS ModalService for the semantic-UI framework. Have a look at [the demo](
 - _text_ : the content of the modal, as a simple text,
 - _html_ : the content of the modal, with html support,
 - _htmlInclude_: the path to a file containing the content of the modal (uses `ng-include` internally),
-- _templateUrl_: the id of a `ng-template`, to use only when you need your own modal code,
+- _templateId_: the id of a `ng-template`, to use only when you need your own modal code,
+- _templateUrl_: the url of a file containing some ng-templates definitions, to use in conjonction with `templateId` 
+    (note: if your template file contains only one template and the template ID is equal to the template url, you can
+     leave this option blank),
 - _positive, negative_ : the text of the negative/positive buttons. If not present, the button won't appear,
 - _basic_ : true/false, if true, the result will be a small basic modal, as presented in the semantic-ui examples,
 - _inputs_ : an object which will be passed to the modal controller. It means you can use whatever you register in the inputs in your modal content, using `inputs.myVar` or `inputs.myFunc()`. But don't forget the modal is in an isolated scope,

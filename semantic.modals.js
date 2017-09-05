@@ -139,7 +139,7 @@
 
         function getTemplate( options ){
             var deferred = $q.defer();
-            if( !options.templateUrl ){
+            if( !options.templateId ){
 
                 var content = options.html || "";
 
@@ -162,20 +162,19 @@
 
             }else{
                 // check to see if the template has already been loaded
-                var cachedTemplate = $templateCache.get( options.templateUrl );
+                var cachedTemplate = $templateCache.get( options.templateId );
                 if( cachedTemplate !== undefined ){
                     deferred.resolve( cachedTemplate );
                 }
                 // if not, let's grab the template for the first time
                 else{
-                    $http( {method: 'GET', url: options.templateUrl, cache: true} )
-                        .then( function( result ){
-                            // save template into the cache and return the template
-                            $templateCache.put( options.templateUrl, result.data );
-                            deferred.resolve( result.data );
-                        }, function( error ){
-                            deferred.reject( error );
-                        } );
+                var url = options.templateUrl || options.templateId;
+                    tplPromise = $http.get(url).then(function(response){
+                          // compile the response, which will put stuff into the cache
+                          $compile(response.data);
+                          // now, fetch from cache
+                          deferred.resolve($templateCache.get(options.templateId));
+                    });
                 }
             }
             return deferred.promise;
