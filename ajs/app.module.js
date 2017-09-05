@@ -16,9 +16,31 @@
      * @context  template example
      */
     angular.module('app', ['semantic.modals'])
+        .directive("highlight", highlightDynamic)
         .controller('MainCtrl', ctrl);
 
     // --------------------------
+
+    function highlightDynamic(){
+        return {
+             scope: {
+               watch: "="
+             },
+             link: function(scope, element) {
+                 scope.$watchCollection('watch', function(newValue){
+                    if(!newValue) return;
+                     var $div = $('<div><pre><code data-language="javascript">' +
+                        JSON.stringify(newValue, null, '   ') + '</code></pre></div>');
+                     Rainbow.color($div, function(result) {
+                         element.html($div.html());
+                     });
+                 });
+             }
+         }
+    }
+
+    // --------------------------
+
 
     function ctrl($scope, $timeout, ModalService) {
 
