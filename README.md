@@ -148,7 +148,6 @@ A modal using a partial:
 A completely custom template:
 
 ```html
-// ng template
 <script type="text/ng-template" id="semanticModal.html">
     <div class="ui modal small">
 
@@ -195,10 +194,19 @@ A completely custom template:
 </script>
 ```
 
+If the template is located in a file with the path identical to the template id (`semanticModal.html`):
 ```js
 ModalService.showModal( {
-      templateUrl: "semanticModal.html",
+      templateId: "semanticModal.html",
       cancelable : false
+  } );
+```
 
+If the template is in a file different from the id, say `partial/templates.html`:
+```js
+ModalService.showModal( {
+      templateId: "semanticModal.html",
+      templateUrl: "partial/templates.html",
+      cancelable : false
   } );
 ```
