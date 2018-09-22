@@ -67,3 +67,7 @@ pre .string, pre .support.value {
     opacity: 1;
     animation: none;
 }
+
+.ng-invalid {
+    border-left-color: red !important;
+}

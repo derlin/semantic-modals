@@ -152,6 +152,7 @@ function call <code>ModalService.showModal(options);</code>.
     htmlInclude: "partial/editModal_content.html",
     inputs: {name: "some name", description: "a description", hidden: "hidden"},
     positive: "do it!",
+    positiveDisable: "!inputs.name || ! inputs.description",
     cancelable : false
 }'></div>
 
